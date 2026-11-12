@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>무선 헤드폰 3종 실시간 비교 가이드</title>
+  
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  
+  <style>
+    :root {
+      /* 첨부 사진(석양·노을빛 사막 하늘)의 감성 팔레트 */
+      --sunset-twilight: #242b3d;   /* 상단 황혼의 딥 네이비 */
+      --sunset-violet: #51425f;     /* 중간 보랏빛 노을 구름 */
+      --sunset-coral: #cf7961;      /* 저녁 노을 코랄 핑크 */
+      --sunset-gold: #f4aa58;       /* 지평선 골든 선셋 오렌지 */
+      --cactus-sage: #4a5d4e;       /* 선인장의 차분한 세이지 올리브 그린 */
+      --card-bg: #ffffff;
+      --card-bg-sub: #faf9f6;
+      --card-border: #e9e4dc;
+      --text-main: #1e2229;
+      --text-sub: #525966;
+      --text-muted: #848b99;
+      --shadow-soft: 0 10px 30px -8px rgba(36, 43, 61, 0.08);
+      --shadow-hover: 0 18px 40px -10px rgba(81, 66, 95, 0.16);
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+      --radius-pill: 9999px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      /* 사진을 직접 깔지 않고, 사진의 색채(황혼 하늘 - 퍼플 - 코랄 - 골든 오렌지)를 수채화처럼 우려낸 CSS 선셋 그라디언트 배경 */
+      background: 
+        radial-gradient(circle at 82% 12%, rgba(244, 170, 88, 0.16) 0%, transparent 45%),
+        radial-gradient(circle at 18% 28%, rgba(207, 121, 97, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 75% 70%, rgba(74, 93, 78, 0.08) 0%, transparent 40%),
+        linear-gradient(175deg, #f3f0ea 0%, #ebe6dc 30%, #e8eaf0 70%, #dfe3eb 100%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1.25rem 4.5rem 1.25rem;
+      line-height: 1.5;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    /* Top Utility Pill Bar (첨부 이미지 우측 상단의 날씨 위젯 느낌) */
+    .top-meta-bar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      font-weight: 600;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+
+    /* Hero Search Bar Section (사진 속 둥글고 긴 순백색 검색창 오마주) */
+    .hero-search-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 2.75rem;
+    }
+
+    .sunset-search-capsule {
+      width: 100%;
+      max-width: 680px;
+      background: #ffffff;
+      border-radius: var(--radius-pill);
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      box-shadow: 0 14px 34px -6px rgba(81, 66, 95, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      margin-bottom: 1.35rem;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .sunset-search-capsule:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px -6px rgba(81, 66, 95, 0.18);
+    }
+
+    .search-icon-svg {
+      color: var(--sunset-coral);
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-input-placeholder {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+      flex: 1;
+      text-align: left;
+      letter-spacing: -0.01em;
+    }
+
+    .search-tag-chip {
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, rgba(244, 170, 88, 0.18), rgba(207, 121, 97, 0.18));
+      color: #9c432b;
+      padding: 0.3rem 0.75rem;
+      border-radius: var(--radius-pill);
+    }
+
+    h1.hero-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--sunset-twilight);
+      margin-bottom: 0.45rem;
+    }
+
+    p.hero-subtitle {
+      font-size: 1rem;
+      color: var(--text-sub);
+      font-weight: 400;
+    }
+
+    /* Fit Insight Banner (착용감 중심 추천 카드) */
+    .comfort-banner {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      padding: 1.45rem 1.75rem;
+      margin-bottom: 2.25rem;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--card-border);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      gap: 1.35rem;
+      align-items: center;
+    }
+
+    /* 석양빛 액센트 라인 */
+    .comfort-banner::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 5px;
+      background: linear-gradient(180deg, var(--sunset-gold) 0%, var(--sunset-coral) 50%, var(--sunset-violet) 100%);
+    }
+
+    .comfort-icon {
+      width: 50px;
+      height: 50px;
+      min-width: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fff3e3 0%, #ffe9e2 100%);
+      color: var(--sunset-coral);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+    }
+
+    .comfort-text h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--sunset-twilight);
+      margin-bottom: 0.35rem;
+    }
+
+    .comfort-text p {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    .highlight-pill {
+      background: #fff0eb;
+      color: #b84323;
+      padding: 0.1rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    /* Product Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.65rem;
+      margin-bottom: 2.75rem;
+    }
+
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 1.85rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+      border-color: #d8cfc4;
+    }
+
+    .top-badge {
+      position: absolute;
+      top: 1.35rem;
+      right: 1.35rem;
+      background: linear-gradient(135deg, var(--sunset-violet) 0%, var(--sunset-twilight) 100%);
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.35rem 0.8rem;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 4px 10px rgba(81, 66, 95, 0.2);
+    }
+
+    /* Product Image Display Frame */
+    .image-showcase {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(145deg, #fbfaf8 0%, #f3eee7 100%);
+      border-radius: var(--radius-md);
+      margin-bottom: 1.35rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.15rem;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .image-showcase img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.35s ease;
+      filter: drop-shadow(0 10px 18px rgba(36, 43, 61, 0.1));
+    }
+
+    .product-card:hover .image-showcase img {
+      transform: scale(1.08);
+    }
+
+    .category-chip {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--sunset-coral);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .product-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--sunset-twilight);
+      line-height: 1.35;
+      margin-bottom: 0.95rem;
+    }
+
+    /* Price Section */
+    .price-box {
+      background: var(--card-bg-sub);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem 1.1rem;
+      margin-bottom: 1.25rem;
+      border: 1px solid #f0ebe2;
+    }
+
+    .price-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .price-figure {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--sunset-twilight);
+    }
+
+    .check-hint {
+      display: inline-block;
+      margin-top: 0.3rem;
+      font-size: 0.72rem;
+      color: #b45309;
+      font-weight: 600;
+    }
+
+    /* Specs List */
+    .specs-list {
+      list-style: none;
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      font-size: 0.86rem;
+    }
+
+    .specs-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      color: var(--text-sub);
+      line-height: 1.45;
+    }
+
+    .specs-list li .bullet {
+      color: var(--sunset-coral);
+      font-weight: 800;
+    }
+
+    /* Editorial Verdict (Why Choose / Points to Note) */
+    .verdict-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.835rem;
+      line-height: 1.5;
+    }
+
+    .verdict-item {
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 0.9rem;
+    }
+
+    .verdict-item.good {
+      background: #edf6f0;
+      border-left: 3.5px solid var(--cactus-sage);
+      color: #27402c;
+    }
+
+    .verdict-item.good strong {
+      color: #2f5236;
+      display: block;
+      margin-bottom: 0.2rem;
+      font-size: 0.85rem;
+    }
+
+    .verdict-item.caution {
+      background: #fff4f0;
+      border-left: 3.5px solid var(--sunset-coral);
+      color: #8c3b24;
+    }
+
+    .verdict-item.caution strong {
+      color: #b54728;
+      display: block;
+      margin-bottom: 0.2rem;
+      font-size: 0.85rem;
+    }
+
+    /* Star Rating */
+    .rating-container {
+      border-top: 1px solid var(--card-border);
+      padding-top: 0.9rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.825rem;
+      color: var(--text-sub);
+    }
+
+    .rating-val {
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .rating-val span.star {
+      color: #eab308;
+    }
+
+    /* Action Button - 둥근 캡슐형 웜 오렌지/선셋 버튼 */
+    .btn-sunset-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      width: 100%;
+      background: linear-gradient(135deg, var(--sunset-twilight) 0%, var(--sunset-violet) 100%);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 0.9rem 1.2rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.92rem;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(36, 43, 61, 0.18);
+      transition: all 0.2s ease;
+    }
+
+    .btn-sunset-action:hover {
+      background: linear-gradient(135deg, var(--sunset-coral) 0%, var(--sunset-gold) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(207, 121, 97, 0.3);
+      color: #ffffff;
+    }
+
+    /* Comparison Table Card */
+    .table-container-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.75rem;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 3rem;
+      overflow-x: auto;
+    }
+
+    .table-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--sunset-twilight);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 1rem 1.1rem;
+      border-bottom: 1px solid #f0ece5;
+    }
+
+    th {
+      background: #fbf9f6;
+      color: var(--text-sub);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    th:first-child {
+      border-top-left-radius: var(--radius-sm);
+      border-bottom-left-radius: var(--radius-sm);
+    }
+
+    th:last-child {
+      border-top-right-radius: var(--radius-sm);
+      border-bottom-right-radius: var(--radius-sm);
+    }
+
+    td {
+      color: var(--text-sub);
+      vertical-align: middle;
+      line-height: 1.5;
+    }
+
+    td:first-child {
+      font-weight: 700;
+      color: var(--sunset-twilight);
+      white-space: nowrap;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+
+    /* Print & PDF Utility Styles */
+    .btn-print {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #ffffff;
+      border: 1px solid rgba(81, 66, 95, 0.2);
+      color: var(--sunset-twilight);
+      padding: 0.35rem 0.95rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+    }
+
+    .btn-print:hover {
+      background: var(--sunset-coral);
+      color: #ffffff;
+      border-color: var(--sunset-coral);
+      transform: translateY(-1px);
+    }
+
+    /* Price Notice Banner */
+    .price-alert-banner {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1.15rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #92400e;
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+
+    .price-alert-banner strong {
+      color: #b45309;
+      font-weight: 700;
+    }
+
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+      }
+      .top-meta-bar .btn-print,
+      .sunset-search-capsule {
+        display: none !important;
+      }
+      .product-card,
+      .comfort-banner,
+      .table-container-card {
+        box-shadow: none !important;
+        border: 1px solid #cccccc !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .btn-sunset-action {
+        border: 1px solid #000000 !important;
+        background: none !important;
+        color: #000000 !important;
+        box-shadow: none !important;
+      }
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 640px) {
+      body {
+        padding: 1.25rem 0.85rem 3.5rem 0.85rem;
+      }
+      h1.hero-title {
+        font-size: 1.55rem;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .product-card {
+        padding: 1.45rem 1.25rem;
+      }
+      .comfort-banner {
+        flex-direction: column;
+        padding: 1.25rem;
+      }
+      .comfort-icon {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        font-size: 1.35rem;
+      }
+      .table-container-card {
+        padding: 1.35rem 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Top Right Status (사진 속 우측 상단 날씨 캡슐 위젯 모티브) -->
+    <div class="top-meta-bar">
+      <div class="meta-chip">🌤️ 울산광역시 13℃</div>
+      <div class="meta-chip">📅 확인일: 2026. 11. 12</div>
+      <button class="btn-print" onclick="window.print()" title="대시보드를 인쇄하거나 PDF 파일로 저장합니다">
+        🖨️ 인쇄 / PDF 저장
+      </button>
+    </div>
+
+    <!-- Center Search Hero Section (사진 속 둥근 화이트 검색창 오마주) -->
+    <header class="hero-search-area">
+      <div class="sunset-search-capsule">
+        <span class="search-icon-svg">🔍</span>
+        <div class="search-input-placeholder">무선 헤드폰 실시간 가격 & 스펙 비교</div>
+        <span class="search-tag-chip">쿠팡 3종 검증</span>
+      </div>
+      <h1 class="hero-title">나에게 꼭 맞는 무선 헤드폰 찾기</h1>
+      <p class="hero-subtitle">선셋의 따뜻한 감성으로 정리한 실시간 가격과 착용감 비교 큐레이션</p>
+    </header>
+
+    <!-- Essential Price Verification Notice -->
+    <div class="price-alert-banner">
+      <span style="font-size:1.2rem;">📢</span>
+      <div>
+        <strong>구매 전 필수 확인 안내:</strong> 쿠팡 상품 가격 및 와우회원 추가 할인 쿠폰, 카드 즉시 할인은 실시간으로 변동됩니다. 아래 각 카드의 <strong>'쿠팡에서 실시간 가격 확인'</strong> 버튼을 눌러 결제 전 최종 가격과 재고 상태를 꼭 다시 확인해 주세요.
+      </div>
+    </div>
+
+    <!-- Fit Recommendation Banner (사용자 중요 기준: 착용 시 편안함) -->
+    <section class="comfort-banner">
+      <div class="comfort-icon">🎧</div>
+      <div class="comfort-text">
+        <h3>착용 시 편안함이 가장 중요하시다면?</h3>
+        <p>
+          헤드폰 착용감의 핵심은 <span class="highlight-pill">250g 전후의 초경량 무게</span>와 <span class="highlight-pill">소프트핏 압력 분산</span>입니다.<br>
+          • <strong>1순위 추천: 소니 WH-1000XM5</strong> (250g 초경량 + 부드러운 메모리폼으로 장시간 착용 시 정수리·귀 압박이 가장 적음)<br>
+          • <strong>참고: 앤커 Space Q45</strong>는 292g으로 약 42g 무거워 목·정수리 피로에 민감한 분은 묵직할 수 있습니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- 3 Product Cards Grid -->
+    <div class="grid">
+      <!-- Item 1: SONY WH-1000XM5 -->
+      <article class="product-card">
+        <span class="top-badge">착용감·노캔 1위</span>
+        <div>
+          <div class="image-showcase">
+            <img src="https://images.unsplash.com/photo-1662948261149-3f0a0ab0181b?fm=jpg&w=600&auto=format&fit=crop&q=80" alt="소니 WH-1000XM5">
+          </div>
+
+          <div class="category-chip">Flagship Noise-Canceling</div>
+          <h2 class="product-title">소니 WH-1000XM5</h2>
+
+          <div class="price-box">
+            <div class="price-label">쿠팡 대략적 판매가</div>
+            <div class="price-figure">약 38~44만 원대</div>
+            <div class="check-hint">⚠️ 실시간 쿠폰가: [상세페이지 확인]</div>
+          </div>
+
+          <ul class="specs-list">
+            <li><span class="bullet">•</span> <strong>무게 & 착용감:</strong> 약 250g 초경량 소프트 핏 가죽</li>
+            <li><span class="bullet">•</span> <strong>노이즈 캔슬링:</strong> 8개 마이크 & 듀얼 V1/QN1 통합칩</li>
+            <li><span class="bullet">•</span> <strong>재생 시간:</strong> ANC On 최대 30시간 (LDAC 지원)</li>
+          </ul>
+
+          <div class="verdict-group">
+            <div class="verdict-item good">
+              <strong>💡 이 제품을 선택해야 하는 이유</strong>
+              지하철·비행기 소음을 완전히 지워주는 최상급 노캔과 하루 종일 써도 머리가 안 아픈 250g 경량 소프트핏이 필수일 때 최고의 선택입니다.
+            </div>
+            <div class="verdict-item caution">
+              <strong>⚠️ 구매 전 아쉬운 점 & 주의사항</strong>
+              약 40만 원 전후의 높은 가격과 본체가 안쪽으로 완전히 접히지 않아(스위블만 지원) 가방 보관 부피가 큽니다.
+            </div>
+          </div>
+
+          <div class="rating-container">
+            <div class="rating-val">
+              <span class="star">★</span>
+              <span>4.9 / 5.0</span>
+            </div>
+            <span>리뷰 약 8,900개 이상</span>
+          </div>
+        </div>
+
+        <a href="https://www.coupang.com/np/search?q=%EC%86%8C%EB%8B%88+WH-1000XM5" target="_blank" rel="noopener noreferrer" class="btn-sunset-action">
+          쿠팡에서 실시간 가격 확인 ↗
+        </a>
+      </article>
+
+      <!-- Item 2: Anker Soundcore Space Q45 -->
+      <article class="product-card">
+        <span class="top-badge" style="background:var(--sunset-coral);">가성비 올라운더</span>
+        <div>
+          <div class="image-showcase">
+            <img src="https://cdn.shopify.com/s/files/1/0515/5553/2976/files/A3040G11_12ed66de-28ba-488e-9f3b-b2981c6deec2.png?v=1759993747" alt="앤커 사운드코어 스페이스 Q45">
+          </div>
+
+          <div class="category-chip">Mid-Range All-Rounder</div>
+          <h2 class="product-title">앤커 Space Q45</h2>
+
+          <div class="price-box">
+            <div class="price-label">쿠팡 대략적 판매가</div>
+            <div class="price-figure">약 9~12만 원대</div>
+            <div class="check-hint">⚠️ 실시간 쿠폰가: [상세페이지 확인]</div>
+          </div>
+
+          <ul class="specs-list">
+            <li><span class="bullet">•</span> <strong>무게 & 착용감:</strong> 약 292g (메탈 힌지 & 도톰한 폼)</li>
+            <li><span class="bullet">•</span> <strong>노이즈 캔슬링:</strong> 3단계 적응형 액티브 노캔</li>
+            <li><span class="bullet">•</span> <strong>재생 시간:</strong> ANC On 최대 50시간 (괴물 배터리)</li>
+          </ul>
+
+          <div class="verdict-group">
+            <div class="verdict-item good">
+              <strong>💡 이 제품을 선택해야 하는 이유</strong>
+              10만 원 안팎에서 노이즈 캔슬링, LDAC 고음질, 50시간 배터리를 모두 챙길 수 있어 플래그십이 부담스러운 분에게 최적입니다.
+            </div>
+            <div class="verdict-item caution">
+              <strong>⚠️ 구매 전 아쉬운 점 & 주의사항</strong>
+              무게가 약 292g으로 소니(250g) 대비 묵직해, 정수리 압박감에 예민한 분은 2~3시간 연속 착용 시 피로감을 느낄 수 있습니다.
+            </div>
+          </div>
+
+          <div class="rating-container">
+            <div class="rating-val">
+              <span class="star">★</span>
+              <span>4.6 / 5.0</span>
+            </div>
+            <span>리뷰 약 1,700개 이상</span>
+          </div>
+        </div>
+
+        <a href="https://www.coupang.com/np/search?q=%EC%95%A4%EC%BB%A4+%EC%82%AC%EC%9A%B4%EB%93%9C%EC%BD%94%EC%96%B4+%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4+Q45" target="_blank" rel="noopener noreferrer" class="btn-sunset-action">
+          쿠팡에서 실시간 가격 확인 ↗
+        </a>
+      </article>
+
+      <!-- Item 3: QCY H3 -->
+      <article class="product-card">
+        <span class="top-badge" style="background:var(--cactus-sage);">초가성비 입문</span>
+        <div>
+          <div class="image-showcase">
+            <img src="http://www.qcy.com/cdn/shop/files/H3_-1_de4114e1-9d0d-4d3b-b3ff-fad4f84726b7.png" alt="QCY H3 ANC">
+          </div>
+
+          <div class="category-chip">Budget King</div>
+          <h2 class="product-title">QCY H3 ANC</h2>
+
+          <div class="price-box">
+            <div class="price-label">쿠팡 대략적 판매가</div>
+            <div class="price-figure">약 3~4만 원대</div>
+            <div class="check-hint">⚠️ 실시간 쿠폰가: [상세페이지 확인]</div>
+          </div>
+
+          <ul class="specs-list">
+            <li><span class="bullet">•</span> <strong>무게 & 착용감:</strong> 약 260g (비교적 가벼운 플라스틱 바디)</li>
+            <li><span class="bullet">•</span> <strong>노이즈 캔슬링:</strong> 최대 43dB 하이브리드 ANC</li>
+            <li><span class="bullet">•</span> <strong>재생 시간:</strong> ANC Off 최대 60시간 (앱 EQ 커스텀)</li>
+          </ul>
+
+          <div class="verdict-group">
+            <div class="verdict-item good">
+              <strong>💡 이 제품을 선택해야 하는 이유</strong>
+              치킨 값(3만 원대)으로 노캔을 경험할 수 있으며, 비나 땀, 야외 운동 시 분실·고장 걱정 없이 막 쓰기에 최적입니다.
+            </div>
+            <div class="verdict-item caution">
+              <strong>⚠️ 구매 전 아쉬운 점 & 주의사항</strong>
+              쿠션 통기성이 다소 떨어져 장시간 착용 시 땀이 찰 수 있으며, 사람 말소리 차단 및 통화 마이크 성능에 체급 한계가 있습니다.
+            </div>
+          </div>
+
+          <div class="rating-container">
+            <div class="rating-val">
+              <span class="star">★</span>
+              <span>4.7 / 5.0</span>
+            </div>
+            <span>리뷰 약 1,700개 이상</span>
+          </div>
+        </div>
+
+        <a href="https://www.coupang.com/np/search?q=QCY+H3+%ED%97%A4%EB%93%9C%ED%8F%B0" target="_blank" rel="noopener noreferrer" class="btn-sunset-action">
+          쿠팡에서 실시간 가격 확인 ↗
+        </a>
+      </article>
+    </div>
+
+    <!-- Comparison Table Card -->
+    <div class="table-container-card">
+      <div class="table-title">📊 핵심 스펙 & 차이점 한눈에 비교</div>
+      <table>
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th>소니 WH-1000XM5</th>
+            <th>앤커 Space Q45</th>
+            <th>QCY H3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>가격대 (추정 시세)</td>
+            <td>약 38~44만 원대</td>
+            <td>약 9~12만 원대</td>
+            <td>약 3~4만 원대</td>
+          </tr>
+          <tr>
+            <td>쿠팡 평균 별점</td>
+            <td><strong style="color:var(--sunset-coral);">★ 4.9</strong> / 5.0</td>
+            <td><strong style="color:var(--sunset-coral);">★ 4.6</strong> / 5.0</td>
+            <td><strong style="color:var(--sunset-coral);">★ 4.7</strong> / 5.0</td>
+          </tr>
+          <tr>
+            <td>등록 리뷰 수</td>
+            <td>약 8,900개+</td>
+            <td>약 1,700개+</td>
+            <td>약 1,700개+</td>
+          </tr>
+          <tr>
+            <td>실제 착용 무게</td>
+            <td><strong style="color:var(--cactus-sage);">250g (가장 가벼움)</strong></td>
+            <td>292g (다소 묵직함)</td>
+            <td>260g (비교적 가벼움)</td>
+          </tr>
+          <tr>
+            <td>착용감 평가</td>
+            <td>소프트핏 레더, 정수리 압박 최소</td>
+            <td>도톰한 이어패드, 목 피로감 유의</td>
+            <td>무난한 착용감, 통기성 보통</td>
+          </tr>
+          <tr>
+            <td>노이즈 캔슬링</td>
+            <td>최상급 (8마이크+듀얼칩)</td>
+            <td>우수 (적응형 3단계)</td>
+            <td>준수 (43dB 하이브리드)</td>
+          </tr>
+          <tr>
+            <td>배터리 재생</td>
+            <td>최대 30시간 (ANC On)</td>
+            <td><strong style="color:var(--sunset-twilight);">최대 50시간 (ANC On)</strong></td>
+            <td>최대 60시간 (ANC Off)</td>
+          </tr>
+          <tr>
+            <td>선택해야 하는 이유</td>
+            <td>극강의 소음 차단 & 편안한 착용감</td>
+            <td>10만원대 LDAC + 괴물 배터리</td>
+            <td>3만원대 압도적 가성비 입문</td>
+          </tr>
+          <tr>
+            <td>구매 전 아쉬운 점</td>
+            <td>접히지 않는 폴딩 구조 & 높은 가격</td>
+            <td>소니 대비 42g 무거움</td>
+            <td>플라스틱 마감 & 통화 마이크 한계</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>※ 확인 기준 일자: 2026-11-12 | 쿠팡 실시간 가격 및 프로모션 정책에 따라 실제 구매 가격과 배송비는 변동될 수 있습니다.</p>
+      <p style="margin-top:0.25rem;">본 대시보드는 소비자의 합리적 구매 결정을 돕기 위해 제작된 비교 가이드입니다.</p>
+    </footer>
+  </div>
+</body>
+</html>
